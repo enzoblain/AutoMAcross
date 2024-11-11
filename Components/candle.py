@@ -5,8 +5,8 @@ class Candle():
         self.close = closePrice
         self.max = maxPrice
         self.min = minPrice
-        self.direction = self.getDirection()
-        self.error = self.getSyntaxError()
+        self.error = not self.getSyntaxError() and not self.getValidDataTypes()
+        self.direction = self.getDirection() if not self.error else 'Doji'
     
     def __str__(self):
         return (f"Candle(Open: {self.open}, Close: {self.close}, "
@@ -31,3 +31,16 @@ class Candle():
             return not (self.close > self.min and self.open < self.max)
         
         return False
+
+    def getValidDataTypes(self):
+        if not isinstance(self.timestamp, int):
+            return False
+        if not isinstance(self.open, (int, float)):
+            return False
+        if not isinstance(self.close, (int, float)):
+            return False
+        if not isinstance(self.max, (int, float)):
+            return False
+        if not isinstance(self.min, (int, float)):
+            return False
+        return True
