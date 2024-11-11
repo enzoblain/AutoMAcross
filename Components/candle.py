@@ -44,3 +44,9 @@ class Candle():
         if not isinstance(self.min, (int, float)):
             return False
         return True
+    
+    def getLocalAverage(self):
+        return (self.open + self.close) / 2
+    
+    def getGlobalAverage(self):
+        return (self.max + self.min) / 2

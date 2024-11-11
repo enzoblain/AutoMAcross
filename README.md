@@ -5,6 +5,8 @@ This project is a Python-based trading automation bot that uses a **Moving Avera
 ## Project Structure
 
 - **main.py**: The main script that runs the trading bot, managing data retrieval, crossover detection, and order execution.
+- **candle.py**: Contains the `Candle` class for handling and validating candlestick data.
+- **config.md**: Configuration file that specifies how to handle errors in candle data.
 - **requirements.txt**: A list of all Python packages required to run this project.
 
 ## Features
@@ -12,6 +14,7 @@ This project is a Python-based trading automation bot that uses a **Moving Avera
 - **Moving Average Crossover Strategy**: Implements a simple yet effective strategy that signals buy or sell based on the crossover of short and long-term moving averages.
 - **Automated Trading**: Executes trades automatically based on real-time crossover signals.
 - **Customizable Parameters**: Allows customization of moving average lengths and other parameters to adjust the strategy to different market conditions.
+- **Error Handling**: Configurable error handling for invalid candle data.
 
 ## Installation
 
@@ -27,32 +30,24 @@ To get started with this project, follow these steps:
    cd AutoMAcross
    ```
 
-3. **Install the required Python packages:**
+3. **Install the required packages:**
    ```bash
    pip install -r requirements.txt
    ```
 
-4. **Configure your API Key:**
+## Configuration
 
-   This project requires an API key from [Twelve Data](https://twelvedata.com/) to access financial data. Create a `.env` file in the root directory and add your API key as follows:
+The `config.md` file specifies how to handle errors in candle data. The value can be:
 
-   ```env
-   TWELVE_DATA_API_KEY=your_api_key_here
-   ```
+- **Deleted**: If you want to delete the candles with errors.
+- **Adapt**: If you want to adapt the candles with errors, creating a candle that matches the old and the new one to avoid gaps.
 
-   Replace `your_api_key_here` with your actual Twelve Data API key, which you can obtain by signing up at [Twelve Data](https://twelvedata.com/).
-
-## Usage
-
-To run the bot, use the following command:
-
-```bash
-python main.py
+Example configuration in `config.md`:
+```json
+{
+    "Error handling": "Adapt"
+}
 ```
-
-### Configuration
-
-You can modify parameters like the lengths of the moving averages and trading frequency directly in `main.py` to customize the strategy for different market conditions.
 
 ## Contributing
 

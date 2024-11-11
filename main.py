@@ -1,6 +1,8 @@
-from Scripts.checker import config_checker
+from Scripts.setup import setup
 
-config = config_checker()
+config = setup()
+
+print(config)
 
 from Components.candle import Candle
 
