@@ -1,3 +1,5 @@
+from datetime import datetime
+
 class Candle():
     def __init__(self, timestamp, openPrice, closePrice, maxPrice, minPrice):
         self.timestamp = timestamp
@@ -5,8 +7,8 @@ class Candle():
         self.close = closePrice
         self.max = maxPrice
         self.min = minPrice
-        self.error = not self.getSyntaxError() and not self.getValidDataTypes()
-        self.direction = self.getDirection() if not self.error else 'Doji'
+        self.error = self.getDataError() or not self.getValidDataTypes()
+        self.direction = self.getDirection() if not self.error else None
     
     def __str__(self):
         return (f"Candle(Open: {self.open}, Close: {self.close}, "
@@ -21,19 +23,17 @@ class Candle():
         else:
             return "Doji"
 
-    def getSyntaxError(self):
+    def getDataError(self):
         if self.max < self.min:
             return True
         
-        if self.direction == "Bullish":
-            return not (self.close < self.max and self.open > self.min)
-        elif self.direction == "Bearish":
-            return not (self.close > self.min and self.open < self.max)
+        if not (self.min <= self.open <= self.max and self.min <= self.close <= self.max):
+            return True
         
         return False
 
     def getValidDataTypes(self):
-        if not isinstance(self.timestamp, int):
+        if not isinstance(self.timestamp, datetime):
             return False
         if not isinstance(self.open, (int, float)):
             return False

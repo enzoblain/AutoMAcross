@@ -1,3 +1,7 @@
+from Scripts.checker import config_checker
+
+config = config_checker()
+
 from Components.candle import Candle
 
 from datetime import datetime
@@ -15,6 +19,23 @@ candles = [
     Candle(timestamp=datetime(2024, 11, 8, 10, 45, 0), openPrice=110, closePrice=120, maxPrice=115, minPrice=105)
 ]
 
-for candle in candles:
+index = 0
+while index < len(candles):
+    candle = candles[index]
     if candle.error:
-        print(f"Warning : The provided candle ({candle.timestamp}) has not correct data")
+        print(f"Warning: The provided candle ({candle.timestamp}) has incorrect data")
+        if config['Error handling'] == 'Adapt' and index not in (0, len(candles) - 1):
+            candles[index] = Candle(
+                timestamp=candle.timestamp,
+                openPrice=candles[index - 1].close,
+                closePrice=candles[index + 1].open,
+                maxPrice=max(candles[index - 1].close, candles[index + 1].open),
+                minPrice=min(candles[index - 1].close, candles[index + 1].open)
+            )
+        else:
+            candles.pop(index)
+            continue
+    index += 1
+
+for candle in candles:
+    print(candle)
