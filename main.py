@@ -1,8 +1,6 @@
 from Scripts.setup import setup
 
-config = setup()
-
-print(config)
+config, data = setup()
 
 from Components.candle import Candle
 
