@@ -1,52 +1,32 @@
 from datetime import datetime
+import numpy as np
+    
+def filterCandles(candles, handling):
+    errors = (candles['High'] < candles['Low']) | \
+             ~(candles['Low'] <= candles['Open']) | \
+             ~(candles['Open'] <= candles['High']) | \
+             ~(candles['Low'] <= candles['Close']) | \
+             ~(candles['Close'] <= candles['High'])
 
-class Candle():
-    def __init__(self, timestamp, openPrice, closePrice, maxPrice, minPrice):
-        self.timestamp = timestamp
-        self.open = openPrice
-        self.close = closePrice
-        self.max = maxPrice
-        self.min = minPrice
-        self.error = self.getDataError() or not self.getValidDataTypes()
-        self.direction = self.getDirection() if not self.error else None
-    
-    def __str__(self):
-        return (f"Candle(Open: {self.open}, Close: {self.close}, "
-                f"Max: {self.max}, Min: {self.min}, "
-                f"Direction: {self.direction}, Error: {self.error})")
-    
-    def getDirection(self):
-        if self.close > self.open:
-            return "Bullish"
-        elif self.close < self.open:
-            return "Bearish"
+    for index in candles[errors].index:
+        if index not in (0, len(candles) - 1) and handling == 'Adapt':
+            candles.loc[index, 'Open'] = candles.loc[index - 1, 'Close']
+            candles.loc[index, 'High'] = max(candles.loc[index - 1, 'Close'], candles.loc[index + 1, 'Open'])
+            candles.loc[index, 'Close'] = candles.loc[index + 1, 'Open']
+            candles.loc[index, 'Low'] = min(candles.loc[index - 1, 'Close'], candles.loc[index + 1, 'Open'])
         else:
-            return "Doji"
+            candles = candles.drop(index).reset_index(drop=True)
 
-    def getDataError(self):
-        if self.max < self.min:
-            return True
-        
-        if not (self.min <= self.open <= self.max and self.min <= self.close <= self.max):
-            return True
-        
-        return False
+    return candles
 
-    def getValidDataTypes(self):
-        if not isinstance(self.timestamp, datetime):
-            return False
-        if not isinstance(self.open, (int, float)):
-            return False
-        if not isinstance(self.close, (int, float)):
-            return False
-        if not isinstance(self.max, (int, float)):
-            return False
-        if not isinstance(self.min, (int, float)):
-            return False
-        return True
-    
-    def getLocalAverage(self):
-        return (self.open + self.close) / 2
-    
-    def getGlobalAverage(self):
-        return (self.max + self.min) / 2
+def getCandleDirection(candles):
+    conditions = [
+        (candles['Close'] > candles['Open']),
+        (candles['Close'] < candles['Open'])
+    ]
+
+    choices = ['Bullish', 'Bearish']
+
+    candles['Direction'] = np.select(conditions, choices, default='Doji')
+
+    return candles

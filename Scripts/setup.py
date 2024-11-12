@@ -1,6 +1,7 @@
 from Scripts.checker import config_checker
 from Scripts.functions import getFromEnv
 from Scripts.data_handler import getForexData
+from Components.candle import filterCandles, getCandleDirection
 
 def setup():
     config = config_checker()
@@ -8,6 +9,6 @@ def setup():
 
     data = getForexData(config['Api']['Url'], config['Api']['Key'], 'EUR/USD', interval='5min')
 
-    print(data)
+    data = getCandleDirection(filterCandles(data, config['Error handling']))
 
     return config, data

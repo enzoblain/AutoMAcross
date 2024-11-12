@@ -14,9 +14,13 @@ def getForexData(url, apikey, symbol, interval='5min', start_date='None', end_da
     data = reponse.json()
 
     if 'values' in data:
-        data = pd.DataFrame(data['values'])
-        data.columns = ['timestamp', 'open', 'close', 'min', 'max']
-        data['timestamp'] = pd.to_datetime(data['timestamp'])
+        data = pd.DataFrame(data['values'][::-1])
+        data.columns = ['Timestamp', 'Open', 'High', 'Low', 'Close']
+        data['Timestamp'] = pd.to_datetime(data['Timestamp'])
+        data['Open'] = data['Open'].astype(float)
+        data['High'] = data['High'].astype(float)
+        data['Low'] = data['Low'].astype(float)
+        data['Close'] = data['Close'].astype(float)
     else:
         raise ValueError(data['message'])
 
