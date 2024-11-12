@@ -10,7 +10,7 @@ def setup() -> Tuple[Dict, pd.DataFrame]:
     config = config_checker()
     config['Api']['Key'] = getFromEnv('API_KEY')
 
-    data = getForexData(config['Api']['Url'], config['Api']['Key'], 'EUR/USD', interval='5min')
+    data = getForexData(config['Api']['Url'], config['Api']['Key'], 'EUR/USD', interval='5min', timeZone=config['Time zone'])
 
     data = getCandleDirection(filterCandles(data, config['Error handling']))
 

@@ -3,5 +3,6 @@
         "Key": "",
         "Url": "https://api.twelvedata.com/time_series"
     },
-    "Error handling": "Adapt"
+    "Error handling": "Adapt",
+    "Time zone": "Europe/Paris"
 }
