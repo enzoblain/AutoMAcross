@@ -45,3 +45,12 @@ def getnTimesAverage(candles: pd.DataFrame, n: int, type: str) -> pd.DataFrame:
     candles[f'{n} Times {type} Average'] = candles[f'{type} Average'].rolling(n).mean()
 
     return candles
+
+def getAveragePlaces(candles: pd.DataFrame) -> pd.DataFrame:
+    for index, candle in candles.iterrows():
+        if candle['5 Times Global Average'] > candle['10 Times Global Average']:
+            candles.loc[index, 'Place'] = 'Up'
+        else:
+            candles.loc[index, 'Place'] = 'Down'
+
+    return candles

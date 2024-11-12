@@ -6,4 +6,7 @@ if __name__ == '__main__':
     config, data = setup()
 
     print(data)
-    dataVisualizer(data[-100:])
+
+    dataSample = data.head(100)
+
+    
