@@ -1,8 +1,14 @@
 {
     "Api": {
-        "Key": "",
+        "Key": "None",
         "Url": "https://api.twelvedata.com/time_series"
     },
-    "Error handling": "Adapt",
-    "Time zone": "Europe/Paris"
+    "Error handling": "Delete",
+    "Time zone": "Europe/Paris",
+    "Time range": "1min",
+    "Symbol": "EUR/USD",
+    "Average type": "Local",
+    "Average 1": 1,
+    "Average 2": 2,
+    "Balance": 100
 }

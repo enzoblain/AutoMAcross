@@ -19,18 +19,6 @@ def filterCandles(candles: pd.DataFrame, handling: str) -> pd.DataFrame:
 
     return candles
 
-def getCandleDirection(candles: pd.DataFrame) -> pd.DataFrame:
-    conditions = [
-        (candles['Close'] > candles['Open']),
-        (candles['Close'] < candles['Open'])
-    ]
-
-    choices = ['Bullish', 'Bearish']
-
-    candles['Direction'] = np.select(conditions, choices, default='Doji')
-
-    return candles
-
 def getGlobalAverage(candles: pd.DataFrame) -> pd.DataFrame:
     candles['Global Average'] = (candles['High'] + candles['Low']) / 2
 

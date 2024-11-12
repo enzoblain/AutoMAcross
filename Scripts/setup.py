@@ -1,19 +1,20 @@
 from Scripts.checker import config_checker
 from Scripts.functions import getFromEnv
 from Scripts.data_handler import getForexData
-from Components.candle import filterCandles, getCandleDirection, getGlobalAverage, getLocalAverage
+from Components.candle import filterCandles, getGlobalAverage, getLocalAverage
 
 from typing import Dict, Tuple
 import pandas as pd
 
-def setup(interval: str, candleNumber: int) -> Tuple[Dict, pd.DataFrame]:
+def setup(candleNumber: int) -> Tuple[Dict, pd.DataFrame]:
     config = config_checker()
     config['Api']['Key'] = getFromEnv('API_KEY')
 
-    data = getForexData(config['Api']['Url'], config['Api']['Key'], 'EUR/USD', interval=interval, timeZone=config['Time zone'], outputSize=candleNumber)
+    data = getForexData(config['Api']['Url'], config['Api']['Key'], config['Symbol'], interval=config['Time range'], timeZone=config['Time zone'], outputSize=candleNumber)
 
-    data = getCandleDirection(filterCandles(data, config['Error handling']))
-    data = getGlobalAverage(data)
-    data = getLocalAverage(data)
+    if config['Average type'] == 'Global':
+        data = getGlobalAverage(filterCandles(data, config['Error handling']))
+    else:
+        data = getLocalAverage(filterCandles(data, config['Error handling']))
 
     return config, data

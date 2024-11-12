@@ -2,13 +2,13 @@ import requests
 import pandas as pd
 import plotly.graph_objects as go
 
-def getForexData(url: str, apikey: str, symbol: str, interval: str ='5min', startDate: str = None, endDate: str = None, timeZone: str = 'Etc/GMT', outputSize: int = 5000) -> pd.DataFrame:
+def getForexData(url: str, apikey: str, symbol: str, interval: str, timeZone: str = 'Etc/GMT', outputSize: int = 5000) -> pd.DataFrame:
     params = {
         'symbol': symbol,
         'interval': interval,
         'apikey': apikey,
-        'start_date': startDate,
-        'end_date': endDate,
+        'start_date': None,
+        'end_date': None,
         'outputsize': outputSize
     }
 
@@ -29,40 +29,3 @@ def getForexData(url: str, apikey: str, symbol: str, interval: str ='5min', star
         raise ValueError(data['message'])
 
     return data
-
-def dataVisualizer(data: pd.DataFrame, n1: int, n2: int, type: str) -> None:
-    fig = go.Figure()
-
-    fig.add_trace(go.Candlestick(
-        x=data['Timestamp'],
-        open=data['Open'],
-        high=data['High'],
-        low=data['Low'],
-        close=data['Close'],
-        name='Candlestick'
-    ))
-
-    fig.update_layout(
-        title='Trading Graph',
-        xaxis_title='Date',
-        yaxis_title='Price',
-        xaxis_rangeslider_visible=False
-    )
-
-    fig.add_trace(go.Scatter(
-        x=data['Timestamp'],
-        y=data[f'{n1} Times {type} Average'],
-        mode='lines',
-        name=f'{n1} Times Global Average',
-        line=dict(color='grey', width=2)
-    ))
-
-    fig.add_trace(go.Scatter(
-        x=data['Timestamp'],
-        y=data[f'{n2} Times {type} Average'],
-        mode='lines',
-        name=f'{n2} Times Global Average',
-        line=dict(color='black', width=2)
-    ))
-
-    fig.show()
