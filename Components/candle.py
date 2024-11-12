@@ -1,7 +1,7 @@
-from datetime import datetime
+import pandas as pd
 import numpy as np
     
-def filterCandles(candles, handling):
+def filterCandles(candles: pd.DataFrame, handling: str) -> pd.DataFrame:
     errors = (candles['High'] < candles['Low']) | \
              ~(candles['Low'] <= candles['Open']) | \
              ~(candles['Open'] <= candles['High']) | \
@@ -19,7 +19,7 @@ def filterCandles(candles, handling):
 
     return candles
 
-def getCandleDirection(candles):
+def getCandleDirection(candles: pd.DataFrame) -> pd.DataFrame:
     conditions = [
         (candles['Close'] > candles['Open']),
         (candles['Close'] < candles['Open'])

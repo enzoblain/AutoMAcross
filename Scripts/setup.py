@@ -3,7 +3,10 @@ from Scripts.functions import getFromEnv
 from Scripts.data_handler import getForexData
 from Components.candle import filterCandles, getCandleDirection
 
-def setup():
+from typing import Dict, Tuple
+import pandas as pd
+
+def setup() -> Tuple[Dict, pd.DataFrame]:
     config = config_checker()
     config['Api']['Key'] = getFromEnv('API_KEY')
 

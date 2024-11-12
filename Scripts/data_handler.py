@@ -1,7 +1,7 @@
 import requests
 import pandas as pd
 
-def getForexData(url, apikey, symbol, interval='5min', start_date='None', end_date='None'):
+def getForexData(url: str, apikey: str, symbol: str, interval:str ='5min', start_date: str = None, end_date: str = None) -> pd.DataFrame:
     params = {
         'symbol': symbol,
         'interval': interval,

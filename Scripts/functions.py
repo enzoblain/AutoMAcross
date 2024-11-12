@@ -2,7 +2,7 @@ import os
 
 from dotenv import load_dotenv
 
-def getFromEnv(attr):
+def getFromEnv(attr: str) -> str:
     load_dotenv()
 
     value = os.getenv(attr)
