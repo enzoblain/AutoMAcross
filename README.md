@@ -49,6 +49,10 @@ Example configuration in `config.md`:
 }
 ```
 
+## Branch Information
+
+This branch was created to test various strategies in real-time. The goal is to evaluate the performance of different moving average crossover strategies under live market conditions.
+
 ## Contributing
 
 Contributions are welcome! To contribute:
