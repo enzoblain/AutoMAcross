@@ -6,11 +6,11 @@ from Components.candle import filterCandles, getCandleDirection, getGlobalAverag
 from typing import Dict, Tuple
 import pandas as pd
 
-def setup(interval: str) -> Tuple[Dict, pd.DataFrame]:
+def setup(interval: str, candleNumber: int) -> Tuple[Dict, pd.DataFrame]:
     config = config_checker()
     config['Api']['Key'] = getFromEnv('API_KEY')
 
-    data = getForexData(config['Api']['Url'], config['Api']['Key'], 'EUR/USD', interval=interval, timeZone=config['Time zone'])
+    data = getForexData(config['Api']['Url'], config['Api']['Key'], 'EUR/USD', interval=interval, timeZone=config['Time zone'], outputSize=candleNumber)
 
     data = getCandleDirection(filterCandles(data, config['Error handling']))
     data = getGlobalAverage(data)

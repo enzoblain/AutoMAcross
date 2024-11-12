@@ -14,8 +14,7 @@ def alertCrossed(candles: pd.DataFrame, n1: int, n2: int, type: str) -> List[Lis
 
     return alerts
 
-def MACrossInAction(candles: pd.DataFrame, alerts: List[List[Tuple[int, str]]], type: str) -> int:
-    balance = 1000
+def MACrossInAction(candles: pd.DataFrame, alerts: List[List[Tuple[int, str]]], type: str, balance: int) -> int:
     holdings = 0
     sold = 0
 
