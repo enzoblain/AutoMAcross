@@ -2,7 +2,7 @@ import requests
 import pandas as pd
 import plotly.graph_objects as go
 
-def getForexData(url: str, apikey: str, symbol: str, interval: str ='5min', startDate: str = None, endDate: str = None, timeZone: str = 'Etc/GMT', outputSize: int = 1000) -> pd.DataFrame:
+def getForexData(url: str, apikey: str, symbol: str, interval: str ='5min', startDate: str = None, endDate: str = None, timeZone: str = 'Etc/GMT', outputSize: int = 5000) -> pd.DataFrame:
     params = {
         'symbol': symbol,
         'interval': interval,
@@ -30,7 +30,7 @@ def getForexData(url: str, apikey: str, symbol: str, interval: str ='5min', star
 
     return data
 
-def dataVisualizer(data: pd.DataFrame):
+def dataVisualizer(data: pd.DataFrame, n1: int, n2: int) -> None:
     fig = go.Figure()
 
     fig.add_trace(go.Candlestick(
@@ -51,17 +51,17 @@ def dataVisualizer(data: pd.DataFrame):
 
     fig.add_trace(go.Scatter(
         x=data['Timestamp'],
-        y=data['5 Times Global Average'],
+        y=data[f'{n1} Times Global Average'],
         mode='lines',
-        name='5 Times Global Average',
+        name=f'{n1} Times Global Average',
         line=dict(color='grey', width=2)
     ))
 
     fig.add_trace(go.Scatter(
         x=data['Timestamp'],
-        y=data['10 Times Global Average'],
+        y=data[f'{n2} Times Global Average'],
         mode='lines',
-        name='10 Times Global Average',
+        name=f'{n2} Times Global Average',
         line=dict(color='black', width=2)
     ))
 

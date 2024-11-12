@@ -1,7 +1,7 @@
 from Scripts.checker import config_checker
 from Scripts.functions import getFromEnv
 from Scripts.data_handler import getForexData
-from Components.candle import filterCandles, getCandleDirection, getGlobalAverage, getLocalAverage, getnTimesAverage, getAveragePlaces
+from Components.candle import filterCandles, getCandleDirection, getGlobalAverage, getLocalAverage
 
 from typing import Dict, Tuple
 import pandas as pd
@@ -15,8 +15,5 @@ def setup() -> Tuple[Dict, pd.DataFrame]:
     data = getCandleDirection(filterCandles(data, config['Error handling']))
     data = getGlobalAverage(data)
     data = getLocalAverage(data)
-    data = getnTimesAverage(data, 5, 'Global')
-    data = getnTimesAverage(data, 10, 'Global')
-    data = getAveragePlaces(data)
 
     return config, data
