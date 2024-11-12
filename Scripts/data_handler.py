@@ -30,7 +30,7 @@ def getForexData(url: str, apikey: str, symbol: str, interval: str ='5min', star
 
     return data
 
-def dataVisualizer(data: pd.DataFrame, n1: int, n2: int) -> None:
+def dataVisualizer(data: pd.DataFrame, n1: int, n2: int, type: str) -> None:
     fig = go.Figure()
 
     fig.add_trace(go.Candlestick(
@@ -51,7 +51,7 @@ def dataVisualizer(data: pd.DataFrame, n1: int, n2: int) -> None:
 
     fig.add_trace(go.Scatter(
         x=data['Timestamp'],
-        y=data[f'{n1} Times Global Average'],
+        y=data[f'{n1} Times {type} Average'],
         mode='lines',
         name=f'{n1} Times Global Average',
         line=dict(color='grey', width=2)
@@ -59,7 +59,7 @@ def dataVisualizer(data: pd.DataFrame, n1: int, n2: int) -> None:
 
     fig.add_trace(go.Scatter(
         x=data['Timestamp'],
-        y=data[f'{n2} Times Global Average'],
+        y=data[f'{n2} Times {type} Average'],
         mode='lines',
         name=f'{n2} Times Global Average',
         line=dict(color='black', width=2)
