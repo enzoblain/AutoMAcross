@@ -1,5 +1,6 @@
 import requests
 import pandas as pd
+import plotly.graph_objects as go
 
 def getForexData(url: str, apikey: str, symbol: str, interval: str ='5min', startDate: str = None, endDate: str = None, timeZone: str = 'Etc/GMT', outputSize: int = 1000) -> pd.DataFrame:
     params = {
@@ -28,3 +29,40 @@ def getForexData(url: str, apikey: str, symbol: str, interval: str ='5min', star
         raise ValueError(data['message'])
 
     return data
+
+def dataVisualizer(data: pd.DataFrame):
+    fig = go.Figure()
+
+    fig.add_trace(go.Candlestick(
+        x=data['Timestamp'],
+        open=data['Open'],
+        high=data['High'],
+        low=data['Low'],
+        close=data['Close'],
+        name='Candlestick'
+    ))
+
+    fig.update_layout(
+        title='Trading Graph',
+        xaxis_title='Date',
+        yaxis_title='Price',
+        xaxis_rangeslider_visible=False
+    )
+
+    fig.add_trace(go.Scatter(
+        x=data['Timestamp'],
+        y=data['5 Times Global Average'],
+        mode='lines',
+        name='5 Times Global Average',
+        line=dict(color='grey', width=2)
+    ))
+
+    fig.add_trace(go.Scatter(
+        x=data['Timestamp'],
+        y=data['10 Times Global Average'],
+        mode='lines',
+        name='10 Times Global Average',
+        line=dict(color='black', width=2)
+    ))
+
+    fig.show()

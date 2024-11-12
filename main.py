@@ -1,5 +1,9 @@
 from Scripts.setup import setup
+from Scripts.data_handler import dataVisualizer
 
-config, data = setup()
 
-print(data)
+if __name__ == '__main__':
+    config, data = setup()
+
+    print(data)
+    dataVisualizer(data[-100:])

@@ -30,3 +30,18 @@ def getCandleDirection(candles: pd.DataFrame) -> pd.DataFrame:
     candles['Direction'] = np.select(conditions, choices, default='Doji')
 
     return candles
+
+def getGlobalAverage(candles: pd.DataFrame) -> pd.DataFrame:
+    candles['Global Average'] = (candles['High'] + candles['Low']) / 2
+
+    return candles
+
+def getLocalAverage(candles: pd.DataFrame) -> pd.DataFrame:
+    candles['Local Average'] = (candles['Open'] + candles['Close']) / 2
+
+    return candles
+
+def getnTimesAverage(candles: pd.DataFrame, n: int, type: str) -> pd.DataFrame:
+    candles[f'{n} Times {type} Average'] = candles[f'{type} Average'].rolling(n).mean()
+
+    return candles
