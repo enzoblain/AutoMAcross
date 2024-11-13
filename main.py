@@ -48,4 +48,4 @@ if __name__ == '__main__':
 
     solds_df = solds_df.sort_values(by='score', ascending=False)
 
-    print(solds_df)
+    print(solds_df[:50])
