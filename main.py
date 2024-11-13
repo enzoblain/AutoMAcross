@@ -141,24 +141,23 @@ if __name__ == "__main__":
         endTime = datetime.time(20, 30)
 
         if startTime <= now.time() <= endTime:
-            todo = main()
-            print(todo)
+            data = main()
 
-            if todo['Buy or Sell']:
+            if data['Buy or Sell']:
                 printBalance = False
-                if todo['Buy or Sell'] == 'Buy':
+                if data['Buy or Sell'] == 'Buy':
                     printBalance = True
-                    print(f"Buying at {todo['Price']}")
-                    holdings = balance / todo['Price']
+                    print(f"Buying at {data['Price']}")
+                    holdings = balance / data['Price']
                     balance = 0
-                elif todo['Buy or Sell'] == 'Sell' and holdings != 0:
+                elif data['Buy or Sell'] == 'Sell' and holdings != 0:
                     printBalance = True
-                    print(f"Selling at {todo['Price']}")
-                    balance = holdings * todo['Price']
+                    print(f"Selling at {data['Price']}")
+                    balance = holdings * data['Price']
                     holdings = 0
 
                 if printBalance:
                     print(f"Updated Balance: {balance}")   
                 if holdings != 0:
-                    print(f"Updated Holdings Price: {holdings * todo['Price']}")
+                    print(f"Updated Holdings Price: {holdings * data['Price']}")
             time.sleep(60) # in case of 1 minute interval because 60 is not enough to do it in 1 minute
