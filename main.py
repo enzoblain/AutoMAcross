@@ -2,6 +2,8 @@ import json
 import os
 import requests
 import time
+import datetime
+import pytz
 
 import pandas as pd
 
@@ -133,24 +135,30 @@ if __name__ == "__main__":
     balance, holdings = 100, 0
     print(f"Initial Balance: {balance}")
     while True:
-        todo = main()
-        print(todo)
+        now = datetime.datetime.now(pytz.timezone('Europe/Paris'))
 
-        if todo['Buy or Sell']:
-            printBalance = False
-            if todo['Buy or Sell'] == 'Buy':
-                printBalance = True
-                print(f"Buying at {todo['Price']}")
-                holdings = balance / todo['Price']
-                balance = 0
-            elif todo['Buy or Sell'] == 'Sell' and holdings != 0:
-                printBalance = True
-                print(f"Selling at {todo['Price']}")
-                balance = holdings * todo['Price']
-                holdings = 0
+        startTime = datetime.time(8, 30)
+        endTime = datetime.time(20, 30)
 
-            if printBalance:
-                print(f"Updated Balance: {balance}")   
-            if holdings != 0:
-                print(f"Updated Holdings Price: {holdings * todo['Price']}")
-        time.sleep(60) # in case of 1 minute interval because 60 is not enough to do it in 1 minute
+        if startTime <= now.time() <= endTime:
+            todo = main()
+            print(todo)
+
+            if todo['Buy or Sell']:
+                printBalance = False
+                if todo['Buy or Sell'] == 'Buy':
+                    printBalance = True
+                    print(f"Buying at {todo['Price']}")
+                    holdings = balance / todo['Price']
+                    balance = 0
+                elif todo['Buy or Sell'] == 'Sell' and holdings != 0:
+                    printBalance = True
+                    print(f"Selling at {todo['Price']}")
+                    balance = holdings * todo['Price']
+                    holdings = 0
+
+                if printBalance:
+                    print(f"Updated Balance: {balance}")   
+                if holdings != 0:
+                    print(f"Updated Holdings Price: {holdings * todo['Price']}")
+            time.sleep(60) # in case of 1 minute interval because 60 is not enough to do it in 1 minute

@@ -1,0 +1,26 @@
+name: Python Workflow
+
+on: [push]
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Create .env file
+        run: echo "API_KEY=${{ secrets.API_KEY }}" > .env
+
+      - name: Run the Python script
+        run: python main.py
