@@ -3,7 +3,7 @@
         "Key": "",
         "Url": "https://api.twelvedata.com/time_series"
     },
-    "Error handling": "Delete",
+    "Error handling": "Adapt",
     "Time zone": "Europe/Paris",
     "Time range": "1min",
     "Symbol": "EUR/USD",
