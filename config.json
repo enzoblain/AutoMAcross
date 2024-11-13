@@ -1,6 +1,6 @@
 {
     "Api": {
-        "Key": "None",
+        "Key": "",
         "Url": "https://api.twelvedata.com/time_series"
     },
     "Error handling": "Delete",
@@ -9,6 +9,5 @@
     "Symbol": "EUR/USD",
     "Average type": "Local",
     "Average 1": 1,
-    "Average 2": 2,
-    "Balance": 100
+    "Average 2": 2
 }
