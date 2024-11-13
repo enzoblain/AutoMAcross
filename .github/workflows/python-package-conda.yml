@@ -16,13 +16,13 @@ jobs:
 
       - name: Install Python dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          python -m pip install --upgrade pip | tee pip_install.log
+          pip install -r requirements.txt | tee requirements_install.log
 
       - name: Lint with flake8
         run: |
-          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-          flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics | tee flake8_lint.log
+          flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics | tee flake8_lint_full.log
 
   run:
     runs-on: ubuntu-latest
@@ -38,12 +38,12 @@ jobs:
 
       - name: Install Python dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          python -m pip install --upgrade pip | tee pip_install.log
+          pip install -r requirements.txt | tee requirements_install.log
 
       - name: Create .env file
         run: echo "API_KEY=${{ secrets.API_KEY }}" > .env
 
       - name: Run the Python script
         run: |
-          python main.py
+          python main.py | tee main_script.log
