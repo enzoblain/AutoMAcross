@@ -144,7 +144,7 @@ if __name__ == "__main__":
             data = main()
 
             if data['Buy or Sell']:
-                if data['Buy or Sell'] == 'Buy':
+                if data['Buy or Sell'] == 'Buy' and balance != 0:
                     print(f"Buying at {data['Price']}")
                     holdings = balance / data['Price']
                     balance = 0
