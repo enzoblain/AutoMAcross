@@ -1,5 +1,6 @@
 import requests
 import pandas as pd
+import numpy as np
 import plotly.graph_objects as go
 
 def getForexData(url: str, apikey: str, symbol: str, interval: str ='5min', startDate: str = None, endDate: str = None, timeZone: str = 'Etc/GMT', outputSize: int = 5000) -> pd.DataFrame:
@@ -19,10 +20,16 @@ def getForexData(url: str, apikey: str, symbol: str, interval: str ='5min', star
         data = pd.DataFrame(data['values'][::-1])
         data.columns = ['Timestamp', 'Open', 'High', 'Low', 'Close']
         data['Timestamp'] = pd.to_datetime(data['Timestamp'])
-        data['Open'] = data['Open'].astype(float)
-        data['High'] = data['High'].astype(float)
-        data['Low'] = data['Low'].astype(float)
-        data['Close'] = data['Close'].astype(float)
+        data['Open'] = np.where(data['Open'].astype(float) < data['Close'].astype(float),
+                        data['Open'].astype(float) - 0.00006,
+                        data['Open'].astype(float) + 0.00006)
+
+        data['High'] = data['High'].astype(float) + 0.00006
+        data['Low'] = data['Low'].astype(float) - 0.00006
+
+        data['Close'] = np.where(data['Close'].astype(float) < data['Open'].astype(float),
+                                data['Close'].astype(float) - 0.00006,
+                                data['Close'].astype(float) + 0.00006)
 
         data['Timestamp'] = data['Timestamp'].dt.tz_localize('Australia/Sydney').dt.tz_convert(timeZone).dt.tz_localize(None)
     else:
