@@ -163,4 +163,4 @@ if __name__ == "__main__":
                 holdings = 0
                 print(f"Updated Balance: {balance}")
 
-            time.sleep(60) # in case of 1 minute interval
+        time.sleep(60) # in case of 1 minute interval
