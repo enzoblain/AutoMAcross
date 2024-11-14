@@ -148,12 +148,19 @@ if __name__ == "__main__":
                     print(f"Buying at {data['Price']}")
                     holdings = balance / data['Price']
                     balance = 0
+                    print(f"Updated Holdings: {holdings * data['Price']}")
 
-                    print(f"Updated Holdings Price: {holdings * data['Price']}")
                 elif data['Buy or Sell'] == 'Sell' and holdings != 0:
                     print(f"Selling at {data['Price']}")
                     balance = holdings * data['Price']
                     holdings = 0
                     print(f"Updated Balance: {balance}")   
+
+        else:
+            if holdings != 0:
+                print(f"Selling at {data['Price']}")
+                balance = holdings * data['Price']
+                holdings = 0
+                print(f"Updated Balance: {balance}")
 
             time.sleep(60) # in case of 1 minute interval
